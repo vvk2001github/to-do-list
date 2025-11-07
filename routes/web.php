@@ -9,4 +9,5 @@ Route::resource('/tasks', TaskController::class)
             'store',
             'show',
             'update',
+            'destroy',
         ]);
