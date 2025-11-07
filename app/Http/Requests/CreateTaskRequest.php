@@ -24,7 +24,7 @@ class CreateTaskRequest extends FormRequest
         return [
             'title' => 'string|required|max:255',
             'description' => 'string|nullable',
-            'status' => 'integer|nullable',
+            'status' => 'integer|nullable|in:0,1,2',
         ];
     }
 }

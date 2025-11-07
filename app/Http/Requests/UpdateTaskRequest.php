@@ -24,7 +24,7 @@ class UpdateTaskRequest extends FormRequest
         return [
             'title' => 'string|nullable|max:255',
             'description' => 'string|nullable',
-            'status' => 'integer|nullable',
+            'status' => 'integer|nullable|in:0,1,2',
         ];
     }
 }
