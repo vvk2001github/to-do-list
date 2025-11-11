@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Http\Services\TaskService;
 use App\Models\Task;
+use Illuminate\Http\Client\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -23,15 +24,15 @@ class TaskController extends Controller
 
     /**
      * @param \App\Http\Requests\CreateTaskRequest $request
-     * @return TaskResource
+     * @return JsonResponse
      */
-    public function store(CreateTaskRequest $request): TaskResource
+    public function store(CreateTaskRequest $request): JsonResponse
     {
-        $validatedData = $request->validated();
+        $task = Task::create($request->all());
 
-        $task = Task::create($validatedData);
-
-        return TaskResource::make($task);
+        return (new TaskResource($task))
+            ->response()
+            ->setStatusCode(\Symfony\Component\HttpFoundation\Response::HTTP_CREATED);
     }
 
     /**
