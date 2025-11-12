@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\TaskNotFoundException;
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
+use App\Http\Resources\TaskResourceCollection;
 use App\Http\Services\TaskService;
 use App\Models\Task;
-use Illuminate\Http\Client\Response;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
     /**
-     * @return AnonymousResourceCollection
+     * @param \Illuminate\Http\Request $request
+     * @return TaskResourceCollection
      */
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): TaskResourceCollection
     {
-        return TaskResource::collection(Task::orderBy('id', 'asc')->get());
+        $tasks = Task::orderBy('id', 'asc')->paginate(request('per_page'));
+        return new TaskResourceCollection($tasks);
     }
 
     /**
