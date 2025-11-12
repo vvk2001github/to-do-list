@@ -13,6 +13,10 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TaskController extends Controller
 {
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return AnonymousResourceCollection
+     */
     public function index(Request $request): AnonymousResourceCollection
     {
         $tasks = Task::orderBy('id', 'asc')->paginate(request('per_page'));
@@ -20,12 +24,19 @@ class TaskController extends Controller
         return TaskResource::collection($tasks);
     }
 
-    
-    public function store(CreateTaskRequest $request): TaskResource
+    /**
+     * @param \App\Http\Requests\CreateTaskRequest $request
+     * @return JsonResponse|TaskResource
+     */
+    public function store(CreateTaskRequest $request): JsonResponse|TaskResource
     {
-        $task = Task::create($request->all());
+        try {
+            $task = Task::create($request->all());
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Сouldn\'t create a task'], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
-        return TaskResource::make($task)->created();
+        return TaskResource::make($task);
     }
 
     /**
@@ -62,7 +73,7 @@ class TaskController extends Controller
     {
         $task = TaskService::getTask($taskId);
         $task->delete();
-        
+
         return response(null, JsonResponse::HTTP_NO_CONTENT);
     }
 }
