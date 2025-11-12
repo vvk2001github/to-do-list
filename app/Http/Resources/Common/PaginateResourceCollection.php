@@ -1,22 +1,17 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Common;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class TaskResourceCollection extends ResourceCollection
+class PaginateResourceCollection extends AnonymousResourceCollection
 {
     /**
-     * Transform the resource collection into an array.
-     *
-     * @return array<int|string, mixed>
+     * @param $request
+     * @param $paginated
+     * @param $default
+     * @return mixed
      */
-    public function toArray(Request $request): array
-    {
-        return parent::toArray($request);
-    }
-
     public function paginationInformation($request, $paginated, $default)
     {
         $default['pagination'] = [
