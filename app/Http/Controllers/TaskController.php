@@ -9,7 +9,6 @@ use App\Http\Resources\TaskResource;
 use App\Http\Services\TaskService;
 use App\Models\Task;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TaskController extends Controller
