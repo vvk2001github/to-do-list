@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\PaginateRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Http\Services\TaskService;
@@ -14,10 +15,10 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 class TaskController extends Controller
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\PaginateRequest $request
      * @return AnonymousResourceCollection
      */
-    public function index(Request $request): AnonymousResourceCollection
+    public function index(PaginateRequest $request): AnonymousResourceCollection
     {
         $tasks = Task::orderBy('id', 'asc')->paginate(request('per_page'));
 
